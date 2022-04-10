@@ -1,20 +1,13 @@
-// import { BoxesLoader } from 'react-awesome-loaders';
+// import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
+import { Oval } from 'react-loader-spinner';
+import s from './Loader.module.css';
 
-// import s from './Loader.module.css';
+const loader = () => {
+  return (
+    <div className={s.loader}>
+      {<Oval color="#00BFFF" height={80} width={80} />}
+    </div>
+  );
+};
 
-// const loader = () => {
-//   return (
-//     <div className={s.loader}>
-//       {
-//         <BoxesLoader
-//           boxColor={'#6366F1'}
-//           style={{ marginBottom: '20px' }}
-//           desktopSize={'128px'}
-//           mobileSize={'80px'}
-//         />
-//       }
-//     </div>
-//   );
-// };
-
-// export default loader;
+export default loader;

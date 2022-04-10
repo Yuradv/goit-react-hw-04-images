@@ -5,6 +5,7 @@ import { ToastContainer } from "react-toastify";
 import API from '../services/pixabay-api'
 import Modal from './Modal'
 import Button from "./Button";
+import Loader from "./Loader";
 
 
 export default class App extends Component {
@@ -85,11 +86,10 @@ export default class App extends Component {
           <ToastContainer />
         </div>
       )
-      
     }
 
     if (status === 'pending') {
-      return <></>
+      return <Loader/>
     }
 
     if (status === 'rejected') {
