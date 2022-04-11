@@ -6,6 +6,7 @@ import API from '../services/pixabay-api'
 import Modal from './Modal'
 import Button from "./Button";
 import Loader from "./Loader";
+import Error from "./Error";
 
 
 export default class App extends Component {
@@ -16,6 +17,7 @@ export default class App extends Component {
     page: 1,
     showModal: false,
     bigImg: '',
+    error: null,
   }
   
   
@@ -33,7 +35,7 @@ export default class App extends Component {
       });
       this.fetchPictures(nextImages, nextPage);
     }
-
+    
     if (prevPage !== nextPage && nextPage !== 1) {
       this.fetchPictures(nextImages, nextPage);
     }
@@ -52,12 +54,12 @@ export default class App extends Component {
           };
         });
       })
-      .catch(error => this.setState({ error, status: 'rejected' }));
+      .catch(error => this.setState({ error, status: 'rejected'}));
   }
   
   
   handleFormSubmit = (searchQuery) => {
-    this.setState({ searchQuery });
+    this.setState({ searchQuery, page: 1, status: 'pending'});
   };
 
   
@@ -77,23 +79,31 @@ export default class App extends Component {
   
 
   render() {
-    const { status, pictures, bigImg, searchQuery } = this.state;
+    const { status, pictures, bigImg, error } = this.state;
     
     if (status === 'idle') {
       return (
         <div>
           <Searchbar onSubmit={this.handleFormSubmit} />
           <ToastContainer />
+          <div style={{ textAlign: 'center', marginTop: '20px', fontSize: '32px', color: '#3f51b5' }}>
+            Enter your request</div>
         </div>
       )
     }
 
     if (status === 'pending') {
-      return <Loader/>
+      return (
+        <div>
+          <Searchbar onSubmit={this.handleFormSubmit} />
+          <ToastContainer />
+          <Loader />
+        </div>
+        )
     }
 
     if (status === 'rejected') {
-      return <div><h3>We could not find anything on request - {searchQuery} </h3></div>
+      return <Error message={error.message}/>
     }
   
     if (status === 'resolved') {
