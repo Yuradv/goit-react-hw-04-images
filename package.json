@@ -1,8 +1,8 @@
 {
-  "name": "goit-react-hw-03-image-finder",
+  "name": "goit-react-hw-04-images",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://Yuradv.github.io/goit-react-hw-03-image-finder/",
+  "homepage": "https://Yuradv.github.io/goit-react-hw-04-images/",
   "dependencies": {
     "@chakra-ui/spinner": "^1.2.2",
     "@testing-library/jest-dom": "^5.16.1",
