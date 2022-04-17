@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import ImageGalleryItem from 'components/ImageGalleryItem';
 import s from './ImageGallery.module.css';
 
-function Gallery({ pictures, toggleModal }) {
+export default function Gallery({ pictures, toggleModal }) {
   return (
     <ul className={s.ImageGallery}>
       {pictures.map(picture => (
@@ -24,5 +24,3 @@ ImageGalleryItem.propTypes = {
   pictures: PropTypes.array,
   toggleModal: PropTypes.func,
 };
-
-export default Gallery;

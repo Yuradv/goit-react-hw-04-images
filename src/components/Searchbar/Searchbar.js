@@ -1,47 +1,43 @@
-import React, { Component } from 'react';
+import { useState } from 'react';
 import s from './Searchbar.module.css';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-export default class Form extends Component {
-  state = {
-    searchQuery: '',
+export default function Form({ onSubmit }) {
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const handleNameChange = event => {
+    setSearchQuery(event.currentTarget.value.toLowerCase());
   };
 
-  handleNameChange = event => {
-    this.setState({ searchQuery: event.currentTarget.value.toLowerCase() });
-  };
-
-  handleSubmit = e => {
+  const handleSubmit = e => {
     e.preventDefault();
 
-    if (this.state.searchQuery.trim() === '') {
+    if (searchQuery.trim() === '') {
       return toast.error('Enter your request');
     }
 
-    this.props.onSubmit(this.state.searchQuery);
-    this.setState({ searchQuery: '' });
+    onSubmit(searchQuery);
+    setSearchQuery('');
   };
 
-  render() {
-    return (
-      <header className={s.Searchbar}>
-        <form onSubmit={this.handleSubmit} className={s.SearchForm}>
-          <button type="submit" className={s.button}>
-            <span className={s.label}>Search</span>
-          </button>
+  return (
+    <header className={s.Searchbar}>
+      <form onSubmit={handleSubmit} className={s.SearchForm}>
+        <button type="submit" className={s.button}>
+          <span className={s.label}>Search</span>
+        </button>
 
-          <input
-            className={s.input}
-            type="text"
-            autoComplete="off"
-            autoFocus
-            placeholder="Search images and photos"
-            onChange={this.handleNameChange}
-            value={this.state.searchQuery}
-          />
-        </form>
-      </header>
-    );
-  }
+        <input
+          className={s.input}
+          type="text"
+          autoComplete="off"
+          autoFocus
+          placeholder="Search images and photos"
+          onChange={handleNameChange}
+          value={searchQuery}
+        />
+      </form>
+    </header>
+  );
 }
