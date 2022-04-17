@@ -35,7 +35,7 @@ export default function App() {
     API
       .fetchPictures(searchQuery, page)
       .then((data) => {
-        setPictures([...pictures, ...data.hits])
+        setPictures(pictures => [...pictures, ...data.hits])
         setStatus(Status.RESOLVED)
       })
       .catch((error) => {
