@@ -10,7 +10,6 @@ import Error from "./Error";
 
 const Status = {
   IDLE: "idle",
-  PENDING: "pending",
   RESOLVED: "resolved",
   REJECTED: "rejected",
 };
@@ -24,13 +23,14 @@ export default function App() {
   const [showModal, setShowModal] = useState(false);
   const [bigImg, setBigImg] = useState('');
   const [error, setError] = useState(null)
+  const [loader, setLoader] = useState(false);
  
   
   useEffect(() => {
     if (searchQuery === '') {
       return;
     }
-    setStatus(Status.PENDING);
+    setLoader(true);
 
     API
       .fetchPictures(searchQuery, page)
@@ -41,7 +41,8 @@ export default function App() {
       .catch((error) => {
         setError(error);
         setStatus(Status.REJECTED)
-      });
+      })
+      .finally(() => setLoader(false));
   
   }, [searchQuery, page])
   
@@ -58,10 +59,10 @@ export default function App() {
   };
 
   const loadMore = () => {
-    setPage( page + 1)
+    setPage(page => page + 1)
   };
 
-  
+
     if (status === Status.IDLE) {
       return (
         <div>
@@ -69,19 +70,10 @@ export default function App() {
           <ToastContainer />
           <div style={{ textAlign: 'center', marginTop: '20px', fontSize: '32px', color: '#3f51b5' }}>
             Enter your request</div>
+              {loader && (<Loader />)}
         </div>
       )
-    }
-
-    if (status === Status.PENDING) {
-      return (
-        <div>
-          <Searchbar onSubmit={handleFormSubmit} />
-          <ToastContainer />
-          <Loader />
-        </div>
-        )
-    }
+  }
 
     if (status === Status.REJECTED) {
       return <Error message={error.message}/>
@@ -92,6 +84,7 @@ export default function App() {
         <div>
           <Searchbar onSubmit={handleFormSubmit} />
           <ToastContainer />
+          {loader && (<Loader />)}
           <ImageGallery
             pictures={pictures}
             toggleModal={largeImageURL => toggleModal(largeImageURL)} />
@@ -103,7 +96,7 @@ export default function App() {
           )}
         </div>
       );
-    }
+  }
   
 }
 
